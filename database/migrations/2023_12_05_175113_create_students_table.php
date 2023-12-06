@@ -19,9 +19,10 @@ class CreateStudentsTable extends Migration
             $table->string('dob');
             $table->string('std_id');
             $table->string('parent_name');
-            $table->integer('parent_contact');
+            $table->string('parent_contact');
             $table->string('parent_email');
             $table->string('parent_relationship');
+            $table->boolean('status')->default('0');
             $table->timestamps();
         });
     }

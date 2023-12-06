@@ -4,18 +4,19 @@ namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-use App\Model\Blog;
-use App\Model\Location;
-use App\Model\Whyus;
-use App\Model\Doctor;
-use App\Model\Service;
-
+use App\Model\Student;
 class HomeController extends Controller
 {
-	public function success()
+	public function register(Request $request)
     {
-        return view('frontend.success');
+        $data = $request->all();
+        try {
+            Student::create($data);
+            return redirect(url('/success'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+        
     }
 
 }

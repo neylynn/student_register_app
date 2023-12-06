@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49b818f60b14dfd8fce061fb2f1d60ac",
+    "content-hash": "4ebbc4dd37da6adc4b8e03dcfc5b94c6",
     "packages": [
         {
             "name": "caffeinated/flash",
@@ -6002,5 +6002,5 @@
         "php": "^7.1.3"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

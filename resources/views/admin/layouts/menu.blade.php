@@ -1,3 +1,7 @@
+<li class="{{ Request::is('student*') ? 'active' : '' }}">
+    <a href="{{ route('student.index') }}"><i class="fa fa-edit"></i><span>Students</span></a>
+</li>
+
 <li class="{{ Request::is('doctor*') ? 'active' : '' }}">
     <a href="{{ route('doctor.index') }}"><i class="fa fa-edit"></i><span>Doctor</span></a>
 </li>

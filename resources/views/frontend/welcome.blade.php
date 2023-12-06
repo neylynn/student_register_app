@@ -9,12 +9,10 @@
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
           <div class="card" style="border-radius: 15px;">
             <div class="card-body p-5">
-              <h2 class="text-center mb-5">Congratulations!</h2>
-              <p>
-                You have successfully registered at this school. <br>We will send an approval letter via your registered email address.</h2>
-            </div>
-            <div class="text-center py-4">
-              <button type="button" class="btn btn-primary btn-lg" onclick=" welcome()">OK</button>
+              <h2 class="text-center mb-5">Welcome to Student Registeration Platform!</h2>
+              <div class="text-center py-4">
+                <button type="button" class="btn btn-primary btn-lg" onclick=" register()">Register Now</button>
+              </div>
             </div>
           </div>
         </div>
@@ -22,11 +20,10 @@
     </div>
   </div>
 </section>
-<script> 
-setTimeout(function(){window.location='/'}, 5000);
-function welcome()
+<script>
+function register()
 {
-    location.href = "/";
+     location.href = "/register-form";
 } 
 </script>
 @endsection
