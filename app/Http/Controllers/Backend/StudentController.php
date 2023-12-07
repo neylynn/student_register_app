@@ -9,9 +9,10 @@ use App\Model\Qualify;
 use App\Http\Requests\Admin\DoctorRequest;
 use Flash;
 use App\Http\Traits\QualifyTrait;
-use App\Model\Student;
-use Mail;
 use App\Mail\ContactMail;
+use App\Model\Student;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SampleEmail;
 use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
@@ -52,30 +53,18 @@ class StudentController extends Controller
         $student->status = '1';
         $student->save();
 
+        // Mail::to('recipient@example.com')->send(new ContactMail());
+        // Mail::to('kglay9533@example.com')->send(new ContactMail());
+        // Mail::to($student['contact_email'])->send(new ContactMail($data));
+
         //send mail 
-        $data = [
-            'title' => 'Hello from Laravel',
-            'content' => 'This is a test email sent from Laravel using Gmail.'
-        ];
-    
-        Mail::send('email', $data, function($message) {
-            $message->to('naylinnofficial@gmail.com', 'Recipient Name')
-                    ->subject('Test Email');
-        });
-
-    	// $data = array(
-    	// 	'email' => $student['parent_email'],
-        //    	'name' => $student['name'],
-        //     'inquiry_category' => $student['parent_contact'],
-        //    	'message' => $student['parent_relationship']
-       	// );
-
-        // dd($student->parent_email);
-
-        // Mail::to('EMAIL')->send(new ContactMail($data));
-        // $response = [];
-        // $response['status'] = TRUE;
-        // return json_encode($response);
+        // $student_info->verify_code = mt_rand(1000,9999);
+        $data = array(
+            'email' => $student['parent_email'],
+            'parent_contact' => $student['parent_contact']
+        );
+        Mail::to($data['email'])->send(new ContactMail($data));
+        // Session::put("verify_code", $student_info->verify_code);
         Flash::success('Successfully approved student and information will sent to registered email address');
         return redirect(route('student.index'));
     }
