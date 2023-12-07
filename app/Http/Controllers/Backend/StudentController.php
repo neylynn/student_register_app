@@ -2,23 +2,15 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use App\Model\Doctor;
-use App\Model\Qualify;
-use App\Http\Requests\Admin\DoctorRequest;
 use Flash;
-use App\Http\Traits\QualifyTrait;
 use App\Mail\ContactMail;
 use App\Model\Student;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\SampleEmail;
-use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
-    use QualifyTrait; //using trait
-
     public function __construct() {
         $this->middleware('auth');
     }
@@ -29,8 +21,44 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::orderBy('id', 'DESC')->paginate(25);
+        $students = Student::orderBy('id', 'DESC')->where('status', 0)->paginate(15);
         return view('admin.student.index', compact('students'));
+    }
+
+    public function create()
+    {
+        $students = Student::orderBy('id', 'DESC')->where('status', 1)->paginate(15);
+        return view('admin.student.create', compact('students'));
+    }
+
+    public function download()
+    {
+        $students = Student::where('status', 1)->get();
+        $result_array = [];
+        foreach($students as $student){
+            $name = $student->name;
+            $dob = $student->dob;
+            $std_id = $student->std_id;
+            $parent_name = $student->parent_name;
+            $parent_contact = $student->parent_contact;
+            $parent_email = $student->parent_email;
+            $parent_relationship = $student->parent_relationship;
+            $status = $student->status == '1' ? 'Approved' : 'Pending';
+
+            $data = [
+                $name,
+                $dob,
+                $std_id,
+                $parent_name,
+                $parent_contact,
+                $parent_email,
+                $parent_relationship,
+                $status
+            ];
+            array_push($result_array, $data);
+        }
+        
+        return Excel::download(new \App\Exports\DataExport(json_decode(json_encode($result_array), true)), 'main_student_report.xlsx');
     }
 
     public function edit($id)
@@ -43,7 +71,7 @@ class StudentController extends Controller
         return view('admin.student.edit',compact('student'));
     }
 
-    public function update(Request $request, $id)
+    public function update($id)
     {
         $student = Student::find($id);
         if (empty($student)) {
@@ -53,19 +81,19 @@ class StudentController extends Controller
         $student->status = '1';
         $student->save();
 
-        // Mail::to('recipient@example.com')->send(new ContactMail());
-        // Mail::to('kglay9533@example.com')->send(new ContactMail());
-        // Mail::to($student['contact_email'])->send(new ContactMail($data));
-
-        //send mail 
-        // $student_info->verify_code = mt_rand(1000,9999);
-        $data = array(
-            'email' => $student['parent_email'],
-            'parent_contact' => $student['parent_contact']
+        //send email to parent
+        $mail_data = array(
+            'name' => $student['name'],
+            'dob' => $student['dob'],
+            'std_id' => $student['std_id'],
+            'parent_name' => $student['parent_name'],
+            'parent_contact' => $student['parent_contact'],
+            'parent_email' => $student['parent_email'],
+            'parent_relationship' => $student['parent_relationship'],
+            'status' => $student['status']
         );
-        Mail::to($data['email'])->send(new ContactMail($data));
-        // Session::put("verify_code", $student_info->verify_code);
-        Flash::success('Successfully approved student and information will sent to registered email address');
+        Mail::to($mail_data['parent_email'])->send(new ContactMail($mail_data));
+        Flash::success('Successfully approved student and information will send to registered email address');
         return redirect(route('student.index'));
     }
 }

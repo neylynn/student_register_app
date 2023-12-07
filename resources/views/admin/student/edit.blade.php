@@ -7,33 +7,12 @@
         </h1>
         <span class="breadcrumb"><a href='{{ route("student.index") }}' class="btn btn-sm btn-primary"><i class="fa fa-arrow-circle-left"></i>&nbsp;&nbsp;Go To student</a></span>
     </section>
-
-    
-
    <div class="content">
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                  <!-- {!! Form::model($student, ['route' => ['student.update', $student->id], 'method' => 'patch', 'files' => 'true']) !!}
-                    <div class="form-group col-sm-12 mmtext">
-                        {!! Form::label('name', 'Name:') !!} <span class="text-danger">*</span>
-                        {!! Form::text('name', null, ['class' => 'form-control']) !!}
-                        @if ($errors->has('name'))
-                                <span class="text-danger">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </span>
-                        @endif
-                    </div>
-                    
-                  <div class="form-group col-sm-12">
-                        {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                        <a href="{!! route('student.index') !!}" class="btn btn-default">Cancel</a>
-                 </div>
-                {!! Form::close() !!} -->
                 {!! Form::model($student, ['route' => ['student.update', $student->id], 'method' => 'patch']) !!}
                 <div class="container">
-                    <!-- <h2>Small Table</h2> -->
-                    <!-- <p>The .table-sm class makes the table smaller by cutting cell padding in half:</p> -->
                     <table class="table table-bordered table-sm">
                         <thead>
                         <tr>
@@ -60,17 +39,10 @@
                         </tr>
                         </tbody>
                     </table>
-                    
-
-                <!-- <div class="form-group col-sm-12"> -->
-                        
-                        <a href="{!! route('student.index') !!}" class="btn btn-danger">Cancel</a>
-                        {!! Form::submit('Approve', ['class' => 'btn btn-success']) !!}
-                 <!-- </div> -->
-                
+                    <a href="{!! route('student.index') !!}" class="btn btn-danger">Cancel</a>
+                    {!! Form::submit('Approve', ['class' => 'btn btn-success']) !!}
+                    {!! Form::close() !!}
                 </div>
-                {!! Form::close() !!}
-
                </div>
            </div>
        </div>

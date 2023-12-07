@@ -10,24 +10,16 @@
 |
 */
 
-// use Illuminate\Routing\Route;
-// use Illuminate\Support\Facades\Auth;
-
 Route::get('/', function () {
-    // return view('welcome');
     return view('frontend/welcome');
 });
 Route::get('/register-form', function () {
-    // return view('welcome');
     return view('frontend/register-form');
 });
 Route::get('/success', function () {
-    // return view('welcome');
     return view('frontend/success');
 });
-// Route::post('/frontend/register-form', 'Frontend\HomeController@register')->name('register');
 Route::post('/register-form', 'Frontend\HomeController@register')->name('frontend.register-form');
-// Route::get('/success', 'Frontend\HomeController@success')->name('success');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -37,10 +29,7 @@ Route::group(['prefix'=>'admin'],function(){
 	});
 	Auth::routes();
 	Route::group(['namespace' => 'Backend'],function(){
-		Route::resource('doctor', 'DoctorController');
 		Route::resource('student', 'StudentController');
-		Route::resource('appointment', 'AppointmentController');
-		Route::resource('qualify', 'QualifyController');
-		Route::resource('patient', 'PatientController');
+		Route::post('/student/download', 'StudentController@download');
 	});
 });

@@ -1,11 +1,17 @@
 @extends('admin.layouts.app')
 
 @section('content')
+    <form  method="post" class="form-inline" action="{{ url('admin/student/download') }}">
+    {{ csrf_field() }}
     <section class="content-header">
         <h1>
-            Students
+            Main Students
         </h1>
+        <span class="breadcrumb">
+            <input type="submit" class="btn btn-sm btn-primary" value="Export Student Records">
+        </span>                 
     </section>
+    </form>
     <div class="content">
         <div class="clearfix"></div>
         <div class="clearfix"></div>
@@ -27,7 +33,6 @@
                             <th>Parent Email address</th>
                             <th>Parent Relationship</th>
                             <th>Status</th>
-                            <th>Action</th>
                         </thead>
                         <tbody>
                         <?php $index = 1; ?>
@@ -42,10 +47,6 @@
                                 <td>{{ $student->parent_email }}</td>
                                 <td>{{ $student->parent_relationship }}</td>
                                 <td>{{ $student->status == '0' ? 'Pending' : 'Approved' }}</td>
-                                <td>
-                                <a href="{!! route('student.edit', [$student->id]) !!}"
-                                   class='btn btn-xs btn-primary'><i class="fa fa-check-square-o"></i>&nbsp;View</a>
-                                </td>
                             </tr>
                         @endforeach
                         </tbody>
